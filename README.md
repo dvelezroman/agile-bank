@@ -1,2 +1,0 @@
-# agile-bank
-Accounting Notebook
