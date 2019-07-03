@@ -4,7 +4,10 @@
   "description": "Accounting Notebook",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=development webpack-dev-server --open",
+    "build": "cross-env NODE_ENV=production webpack",
+    "lint": "eslint ./src/**/**.js",
+    "lint:fix": "eslint ./src/**/**.js --fix"
   },
   "author": "Dario Velez Roman",
   "license": "ISC",
@@ -51,6 +54,7 @@
     "@material-ui/icons": "^4.2.1",
     "cross-env": "^5.2.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1"
   }
 }
