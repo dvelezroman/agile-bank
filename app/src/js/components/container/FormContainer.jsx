@@ -5,7 +5,6 @@ import {
 	TextAreaComponent,
 	SelectComponent
 } from "../presentational/index.jsx";
-import { FormContainerLogic } from "../logic/FormContainerLogic.js";
 
 const transactionTypes = [
 	{ value: "deposit", label: "DEPOSIT" },
@@ -31,18 +30,14 @@ const styles = {
 class FormContainer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.logic = new FormContainerLogic(this);
-	}
-
-	componentDidMount() {
-		this.logic.init();
 	}
 
 	render() {
-		console.log(this.state);
 		const {
-			transaction: { number, description, amount, type, method }
-		} = this.state;
+			transaction: { date, number, description, amount, type, method }, 
+			handleChange,
+			onPressButton
+		} = this.props;
 		return (
 			<form id="form" style={{ justifyContent: "center" }}>
 				<InputComponent
@@ -53,7 +48,17 @@ class FormContainer extends React.Component {
 					id="number"
 					value={number}
 					styles={styles}
-					handleChange={this.logic.handleChange}
+					handleChange={handleChange}
+				/>
+				<InputComponent
+					title="Date"
+					name="date"
+					disabled={true}
+					type="text"
+					id="date"
+					value={date}
+					styles={styles}
+					handleChange={handleChange}
 				/>
 				<SelectComponent
 					title="Payment Method"
@@ -61,7 +66,7 @@ class FormContainer extends React.Component {
 					id="method"
 					options={methods}
 					styles={styles}
-					handleChange={this.logic.handleChange}
+					handleChange={handleChange}
 				/>
 				<TextAreaComponent
 					title="Description"
@@ -70,7 +75,7 @@ class FormContainer extends React.Component {
 					id="description"
 					value={description}
 					styles={styles}
-					handleChange={this.logic.handleChange}
+					handleChange={handleChange}
 				/>
 				<InputComponent
 					title="Amount"
@@ -79,7 +84,7 @@ class FormContainer extends React.Component {
 					id="amount"
 					value={amount}
 					styles={styles}
-					handleChange={this.logic.handleChange}
+					handleChange={handleChange}
 				/>
 				<SelectComponent
 					title="Type of Transaction"
@@ -87,12 +92,12 @@ class FormContainer extends React.Component {
 					id="type"
 					options={transactionTypes}
 					styles={styles}
-					handleChange={this.logic.handleChange}
+					handleChange={handleChange}
 				/>
 				<ButtonComponent
 					name="submit"
 					title="Submit"
-					onPressButton={this.logic.onPressButton}
+					onPressButton={onPressButton}
 				/>
 			</form>
 		);

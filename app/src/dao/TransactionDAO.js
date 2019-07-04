@@ -1,4 +1,4 @@
-import { BusinnessDAO } from "./BusinnessDAO.js";
+import { BusinnessDAO } from "./BusinnessDAO";
 
 const endpoints = {
 	save: "/transaction/save",
@@ -9,7 +9,7 @@ const endpoints = {
 
 class TransactionDAORaw extends BusinnessDAO {
 	constructor() {
-		super(endpoints);
+		super(endpoints)
 	}
 }
 

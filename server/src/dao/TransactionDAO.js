@@ -1,4 +1,4 @@
-const { filter, remove, sortBy } = require("lodash");
+const { filter, remove, sortBy, findIndex } = require("lodash");
 
 class TransactionDAORaw {
 	constructor() {
@@ -8,8 +8,9 @@ class TransactionDAORaw {
 	}
 
 	save(data) {
-		this.transactions.push(data);
 		this.setBalance(data.amount, data.type);
+		const transaction = { ...data, balance: this.balance };
+		this.transactions.push(transaction);
 		return this.balance;
 	}
 
@@ -20,6 +21,11 @@ class TransactionDAORaw {
 
 	getAll() {
 		return this.transactions;
+	}
+
+	getDetails(number) {
+		const index = findIndex(this.transactions, transaction => transaction.number === number);
+		return index;
 	}
 
 	filterBy(data) {

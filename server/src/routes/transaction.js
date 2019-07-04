@@ -28,6 +28,23 @@ router.get("/all", (req, res, next) => {
 	});
 });
 
+router.get("/:number", (req, res, next) => {
+	const index = TransactionDAO.getDetails(req.params.number);
+	let status = true;
+	if (index === -1) {
+		status = false,
+		data = {
+			message: "Wrong transaction number"
+		}
+	} else {
+		data = { details: TransactionDAO.transactions[index] }
+	}
+	res.status(200).json({
+		status,
+		data
+	});
+});
+
 router.get("/filter", (req, res, next) => {
 	const { filter } = req.body;
 	const response = {
@@ -42,7 +59,6 @@ router.get("/filter", (req, res, next) => {
 router.post("/save", (req, res, next) => {
 	const { transaction } = req.body;
 	let response;
-
 	response = TransactionDAO.isTransactionPosible(
 		transaction.amount,
 		transaction.type
@@ -51,7 +67,7 @@ router.post("/save", (req, res, next) => {
 				status: true,
 				balance: TransactionDAO.save(transaction),
 				msg: "Succesful transaction"
-		  }
+		}
 		: { status: false, msg: "You do not have enough money" };
 	res.status(201).json(response);
 });
