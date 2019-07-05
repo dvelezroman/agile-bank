@@ -10,22 +10,24 @@ const InputComponent = ({
 	id,
 	value,
 	handleChange
-}) => (
-	<div className="form-group">
-		<fieldset style={styles.fieldset}>
-			<label htmlFor={name}>{title}</label>
-			<input
-				type={type}
-				disabled={disabled}
-				className={"form-control"}
-				id={id}
-				value={value}
-				onChange={value => handleChange(name, value)}
-				required
-			/>
-		</fieldset>
-	</div>
-);
+}) => {
+	return (
+		<div className="form-group">
+			<fieldset style={styles.fieldset}>
+				<label htmlFor={name}>{title}</label>
+				<input
+					type={type}
+					disabled={disabled}
+					className={"form-control"}
+					id={id}
+					value={value}
+					onChange={value => handleChange(name, value)}
+					required
+				/>
+			</fieldset>
+		</div>
+	);
+};
 
 InputComponent.propTypes = {
 	title: PropTypes.string.isRequired,

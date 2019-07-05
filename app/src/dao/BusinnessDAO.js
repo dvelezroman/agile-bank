@@ -1,5 +1,5 @@
 const urlBase = "http://localhost:3000";
-import { findIndex } from 'lodash';
+import { findIndex } from "lodash";
 import axios from "axios";
 
 export class BusinnessDAO {
@@ -22,7 +22,10 @@ export class BusinnessDAO {
 	}
 
 	getDetails(number) {
-		const index = findIndex(this.list, transaction => transaction.number === number);
+		const index = findIndex(
+			this.list,
+			transaction => transaction.number === number
+		);
 		return index;
 	}
 
@@ -42,11 +45,13 @@ export class BusinnessDAO {
 		try {
 			const response = await axios.post(endpoint, { transaction });
 			if (response.data.status) {
-				const newTransaction = { ...transaction, balance: response.data.balance }
-				this.list = [ ...this.list, newTransaction ];
-				
+				const newTransaction = {
+					...transaction,
+					balance: response.data.balance
+				};
+				this.list = [newTransaction, ...this.list];
 			}
-			return response.data;		
+			return response.data;
 		} catch (error) {
 			throw new Error(JSON.stringify(error));
 		}

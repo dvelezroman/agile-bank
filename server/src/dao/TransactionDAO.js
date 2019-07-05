@@ -10,7 +10,7 @@ class TransactionDAORaw {
 	save(data) {
 		this.setBalance(data.amount, data.type);
 		const transaction = { ...data, balance: this.balance };
-		this.transactions.push(transaction);
+		this.transactions = [transaction, ...this.transactions];
 		return this.balance;
 	}
 
@@ -24,7 +24,10 @@ class TransactionDAORaw {
 	}
 
 	getDetails(number) {
-		const index = findIndex(this.transactions, transaction => transaction.number === number);
+		const index = findIndex(
+			this.transactions,
+			transaction => transaction.number === number
+		);
 		return index;
 	}
 

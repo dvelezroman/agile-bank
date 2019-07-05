@@ -1,11 +1,13 @@
 import uuidv4 from "uuid/v4";
 import { TransactionDAO } from "../../../dao/TransactionDAO.js";
-import Moment from 'moment';
+import Moment from "moment";
 
 export class Logic {
 	constructor(container) {
 		this.setState = container.setState.bind(container);
 		container.state = {
+			showAlertError: false,
+			showAlertSuccess: false,
 			showModal: false,
 			transactions: [],
 			selected: null,
@@ -29,7 +31,7 @@ export class Logic {
 
 	async init() {
 		const { transaction } = this.state;
-		const date = Moment().format('YYYY/MM/DD');
+		const date = Moment().format("YYYY/MM/DD");
 		const transactions = await TransactionDAO.getAll();
 		transaction["number"] = uuidv4();
 		transaction["date"] = date;
@@ -41,7 +43,8 @@ export class Logic {
 		const { transaction } = this.state;
 		switch (name) {
 			case "amount": {
-				transaction[name] = value != "" ? parseFloat(value) < 0 ? 0 : parseFloat(value) : 0;
+				transaction[name] =
+					value === "" ? 0 : parseFloat(value) < 0 ? 0 : parseFloat(value);
 				break;
 			}
 			default: {
@@ -55,7 +58,7 @@ export class Logic {
 	async onPressButton(event) {
 		event.preventDefault();
 		const { transaction } = this.state;
-		const date = Moment().format('YYYY/MM/DD');
+		const date = Moment().format("YYYY/MM/DD");
 		const response = await TransactionDAO.save(transaction);
 		if (response.status) {
 			const reset = {
@@ -66,19 +69,25 @@ export class Logic {
 				method: "cash",
 				date
 			};
-			this.setState({ transaction: reset });
+			this.setState({ transaction: reset, showAlertSuccess: true }, () =>
+				setTimeout(() => this.setState({ showAlertSuccess: false }), 2000)
+			);
+		} else {
+			this.setState({ showAlertError: true }, () =>
+				setTimeout(() => this.setState({ showAlertError: false }), 2000)
+			);
 		}
 		const transactions = TransactionDAO.list;
 		this.setState({ transactions });
 	}
 
-	getTransactionDetails (number) {
+	getTransactionDetails(number) {
 		const index = TransactionDAO.getDetails(number);
-        const selected = index != -1 ? TransactionDAO.list[index] : false;
-        this.setState({ selected, showModal: true });
+		const selected = index != -1 ? TransactionDAO.list[index] : false;
+		this.setState({ selected, showModal: true });
 	}
 
-	closeModal () {
-		this.setState({ showModal: false })
+	closeModal() {
+		this.setState({ showModal: false });
 	}
 }

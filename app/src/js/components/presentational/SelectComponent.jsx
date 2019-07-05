@@ -14,6 +14,7 @@ const SelectComponent = ({
 		<label htmlFor={name}>{title}</label>
 		<select
 			id={id}
+			value={value}
 			className="form-control"
 			onChange={event => handleChange(name, event)}
 		>

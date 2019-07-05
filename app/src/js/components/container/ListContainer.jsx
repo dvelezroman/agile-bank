@@ -1,8 +1,14 @@
 import React from "react";
-import {
-	
-} from "../presentational/index.jsx";
+import {} from "../presentational/index.jsx";
 import { TableComponent } from "../presentational/TableComponent.jsx";
+
+const styles = {
+	header: {
+		backgroundColor: "#d6cbd3",
+		position: "sticky",
+		top: 0
+	}
+};
 
 class ListContainer extends React.Component {
 	constructor(props) {
@@ -12,24 +18,47 @@ class ListContainer extends React.Component {
 	render() {
 		const { transactions, selected, getTransactionDetails } = this.props;
 		return (
-			<div style={{ paddingBottom: 50 }}>
-                <h2>Transaction List</h2>
-                <table class="table">
-                    <thead style={{ backgroundColor: "#d6cbd3"}}>
-                        <tr key="table-header">
-                            <th scope="col">Date</th>
-                            <th scope="col">Number</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Balance</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transactions.map(transaction => <TableComponent transaction={transaction} selected={selected} onPressDetail={getTransactionDetails} />)}
-                    </tbody>
-                </table>                
-            </div>
+			<div>
+				<div>
+					<h4>Transaction List</h4>
+				</div>
+				<div style={{ height: 600, overflowY: "auto" }}>
+					<table className="table">
+						<thead>
+							<tr key="table-header">
+								<th className="text-center" style={styles.header} scope="col">
+									Date
+								</th>
+								<th className="text-center" style={styles.header} scope="col">
+									Number
+								</th>
+								<th className="text-center" style={styles.header} scope="col">
+									Type
+								</th>
+								<th className="text-center" style={styles.header} scope="col">
+									Amount
+								</th>
+								<th className="text-center" style={styles.header} scope="col">
+									Balance
+								</th>
+								<th className="text-center" style={styles.header} scope="col">
+									Action
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{transactions.map(transaction => (
+								<TableComponent
+									key={`tableComponent_${transaction.number}`}
+									transaction={transaction}
+									selected={selected}
+									onPressDetail={getTransactionDetails}
+								/>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</div>
 		);
 	}
 }
