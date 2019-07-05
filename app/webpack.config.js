@@ -1,14 +1,31 @@
-require('@babel/register');
-const webpackMerge = require('webpack-merge');
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+require("@babel/polyfill");
 
-const common = require('./config/webpack/webpack.common.babel');
-
-const envs = {
-    development: 'dev',
-    production: 'prod'
+module.exports = {
+	entry: ["@babel/polyfill", "./src"],
+	module: {
+		rules: [
+			{
+				test: /\.(js|jsx)$/,
+				exclude: /node_modules/,
+				use: {
+					loader: "babel-loader"
+				}
+			},
+			{
+				test: /\.html$/,
+				use: [
+					{
+						loader: "html-loader"
+					}
+				]
+			}
+		]
+	},
+	plugins: [
+		new HtmlWebPackPlugin({
+			template: "./src/index.html",
+			filename: "./index.html"
+		})
+	]
 };
-
-/* eslint-disable global-require,import/no-dynamic-require */
-const env = envs[process.env.NODE_ENV || 'development'];
-const envConfig = require(`./config/webpack/webpack.${env}.babel`);
-module.exports = webpackMerge(common, envConfig);

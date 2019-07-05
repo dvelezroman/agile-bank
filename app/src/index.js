@@ -1,12 +1,6 @@
-import React, { Fragment } from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import MainScreen from "./js/components/container/MainScreen.jsx";
 
-import Home from './components/Home';
-
-ReactDOM.render(
-  <BrowserRouter>
-    <Home />
-  </BrowserRouter>,
-  document.getElementById('root')
-);
+const wrapper = document.getElementById("root");
+wrapper ? ReactDOM.render(<MainScreen />, wrapper) : false;
